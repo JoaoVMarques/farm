@@ -3,7 +3,7 @@ import wheat2 from '../assets/plants/wheat/wheat2.png';
 import wheat3 from '../assets/plants/wheat/wheat3.png';
 import wheat4 from '../assets/plants/wheat/wheat4.png';
 
-import { PlantCollection } from '../interfaces/plants';
+import { PlantCollection } from '../types/plantsTypes';
 
 export const PLANTS: PlantCollection = {
   wheat: {

@@ -1,0 +1,14 @@
+import { UnlockRule } from '../types/gameTypes';
+
+export const UNLOCK_PATH: UnlockRule[] = [
+  {
+    id: 'SHOW_MONEY_UI',
+    threshold: 0.50,
+    description: 'Agora você pode ver seu saldo bancário!',
+  },
+  {
+    id: 'UNLOCK_SHOP',
+    threshold: 2.00,
+    description: 'E-Market liberado!',
+  },
+];
