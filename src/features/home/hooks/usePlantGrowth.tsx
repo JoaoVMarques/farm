@@ -1,33 +1,47 @@
 import { useEffect, useState } from 'react';
 import { PLANTS, PlantType } from '../../../data/plantConfig';
+import tilledDirtSprite from '../../../assets/plotPlanted.png';
 
 export function usePlantGrowth(plantType: PlantType) {
   const [stage, setStage] = useState(0);
   const currentPlant = PLANTS[plantType];
 
+  const totalStages = currentPlant.sprites.length + 1;
+  const isMature = stage === totalStages;
+
   useEffect(() => {
-    if (stage === 0 || stage >= currentPlant.sprites.length) {return;}
+    if (stage === 0 || isMature) {return;}
 
     const timer = setTimeout(() => {
       setStage((prev) => prev + 1);
     }, currentPlant.growTime);
 
     return () => clearTimeout(timer);
-  }, [stage, currentPlant]);
+  }, [stage, currentPlant, isMature]);
 
   const interact = () => {
     if (stage === 0) {
       setStage(1);
-    } else if (stage === currentPlant.sprites.length) {
-      console.log('Colheu');
+    } else if (isMature) {
+      console.log(`Colheu ${currentPlant.name}!`);
       setStage(0);
     }
   };
 
+  let currentSprite: string | null = null;
+
+  if (stage === 0) {
+    currentSprite = null;
+  } else if (stage === 1) {
+    currentSprite = tilledDirtSprite;
+  } else {
+    currentSprite = currentPlant.sprites[stage - 2];
+  }
+
   return {
     stage,
-    currentSprite: stage > 0 ? currentPlant.sprites[stage - 1] : null,
+    currentSprite,
     interact,
-    isMature: stage === currentPlant.sprites.length,
+    isMature,
   };
 }
