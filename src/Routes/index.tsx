@@ -4,8 +4,9 @@ import { FarmPage } from '../pages';
 function Router() {
   return (
     <Routes>
-      <Route path="*" element={ <Navigate to="/farm" replace /> } />
-      <Route path="/farm" element={ <FarmPage /> } />
+      <Route path="*" element={ <Navigate to="/" replace /> } />
+
+      <Route path="/" element={ <FarmPage /> } />
     </Routes>
   );
 }

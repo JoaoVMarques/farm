@@ -1,5 +1,6 @@
 {
   "name": "escola",
+  "homepage": "https://JoaoVMarques.github.io/farm/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -7,12 +8,15 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
     "formik": "^2.4.6",
+    "gh-pages": "^6.3.0",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^18.3.1",
