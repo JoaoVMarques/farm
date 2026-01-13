@@ -10,6 +10,7 @@ export const PLANTS: PlantCollection = {
     name: 'Trigo',
     growTime: 10000,
     sprites: [wheat1, wheat2, wheat3, wheat4],
+    sellPrice: 0.5,
   },
 };
 

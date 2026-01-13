@@ -19,6 +19,10 @@
   transition: transform 0.2s;
 }
 
+.ready-to-harvest {
+  border: 4px solid #1bee14;
+}
+
 .plant-image {
   width: 100%;
   height: 100%;
