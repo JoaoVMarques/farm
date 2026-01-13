@@ -7,6 +7,8 @@ interface GameContextData {
   addMoney: (amount: number) => void
   isUnlocked: (feature: FeatureId) => boolean
   unlockedFeatures: Set<FeatureId>
+  notification: string | null
+  closeNotification: () => void
 }
 
 const GameContext = createContext({} as GameContextData);
@@ -15,6 +17,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [ money, setMoney ] = useState(0);
   const [nextUnlockIndex, setNextUnlockIndex] = useState(0);
   const [ unlockedFeatures, setUnlockedFeatures] = useState<Set<FeatureId>>(new Set());
+  const [ notification, setNotification ] = useState<string | null>(null);
+
+  const closeNotification = () => setNotification(null);
 
   const addMoney = (amount: number) => {
     const newMoney = money + amount;
@@ -36,7 +41,6 @@ export function GameProvider({ children }: { children: ReactNode }) {
       const rule = UNLOCK_PATH[currentIndex];
 
       newUnlocks.push(rule.id);
-      console.log(`🎉 DESBLOQUEADO: ${rule.description}`);
       currentIndex++;
     }
 
@@ -44,6 +48,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
       setUnlockedFeatures((prev) => {
         const newSet = new Set(prev);
         newUnlocks.forEach((id) => newSet.add(id));
+        const lastId = newUnlocks[newUnlocks.length - 1];
+        const rule = UNLOCK_PATH.find((r) => r.id === lastId);
+
+        if (rule) {
+          setNotification(rule.description);
+        }
+
         return newSet;
       });
       setNextUnlockIndex(currentIndex);
@@ -52,7 +63,14 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const isUnlocked = (feature: FeatureId) => unlockedFeatures.has(feature);
   return (
-    <GameContext.Provider value={ { money, addMoney, isUnlocked, unlockedFeatures } }>
+    <GameContext.Provider value={ {
+      money,
+      addMoney,
+      isUnlocked,
+      unlockedFeatures,
+      notification,
+      closeNotification,
+    } }>
       { children }
     </GameContext.Provider>
   );

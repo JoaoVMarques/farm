@@ -1,3 +1,4 @@
+import { UnlockPopup } from '../components';
 import { useGame } from '../context/GameContext';
 import { FarmPlot } from '../features/home/components';
 import '../styles/style.css';
@@ -7,6 +8,7 @@ export function FarmPage() {
 
   return (
     <div className="game-background min-vh-100 d-flex justify-content-center align-items-center">
+      <UnlockPopup />
       <div className="hud-container">
         { isUnlocked('SHOW_MONEY_UI') && (
           <div className="money-panel">
