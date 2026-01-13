@@ -1,3 +1,4 @@
+import { Container, Card, Row, Col } from 'react-bootstrap'; // Importe os componentes
 import { UnlockPopup } from '../components';
 import { useGame } from '../context/GameContext';
 import { FarmPlot } from '../features/home/components';
@@ -5,24 +6,36 @@ import '../styles/style.css';
 
 export function FarmPage() {
   const { money, isUnlocked } = useGame();
+  const plots = Array.from({ length: 1 });
 
   return (
-    <div className="game-background min-vh-100 d-flex justify-content-center align-items-center">
+    <Container fluid
+      className="game-background vh-100 d-flex justify-content-center align-items-center p-0">
       <UnlockPopup />
       <div className="hud-container">
         { isUnlocked('SHOW_MONEY_UI') && (
-          <div className="money-panel">
-            <span style={ { fontSize: '1.5rem' } }>💰</span>
-            <div className="d-flex flex-column">
-              <span style={ { fontSize: '0.8rem', color: '#555' } }>Saldo</span>
-              <span>R$ { money.toFixed(2) }</span>
-            </div>
-          </div>
+          <Card className="money-card">
+            <Card.Body className="d-flex align-items-center p-2">
+              <span className="fs-2 me-2">💰</span>
+              <div className="lh-1">
+                <small className="text-muted fw-bold"
+                  style={ { fontSize: '0.75rem' } }>SALDO</small>
+                <div className="fw-bold text-success">R$ { money.toFixed(2) }</div>
+              </div>
+            </Card.Body>
+          </Card>
         ) }
       </div>
       <div className="farm-grid-area">
-        <FarmPlot plantType="wheat" />
+        <Row className="g-3 justify-content-center">
+          { plots.map((_, index) => (
+            <Col key={ index } xs="auto">
+              <FarmPlot plantType="wheat" />
+            </Col>
+          )) }
+        </Row>
       </div>
-    </div>
+
+    </Container>
   );
 }
