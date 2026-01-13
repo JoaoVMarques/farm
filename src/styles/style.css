@@ -1,0 +1,20 @@
+.game-background {
+  background-color: #1f1f1f;
+  color: white;
+}
+
+.farm-plot {
+  width: 150px;
+  height: 150px;
+  background-color: #8d6e63;
+  border: 4px solid #5d4037;
+  border-radius: 10px;
+  cursor: pointer;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  
+  transition: transform 0.2s; /* Animação suave */
+}
