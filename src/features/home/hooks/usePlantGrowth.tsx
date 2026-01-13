@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useGame } from '../../../context/GameContext';
 import { PLANTS, PlantType } from '../../../data/plantConfig';
 import tilledDirtSprite from '../../../assets/plotPlanted.png';
 
 export function usePlantGrowth(plantType: PlantType) {
   const [stage, setStage] = useState(0);
   const currentPlant = PLANTS[plantType];
+
+  const { addMoney } = useGame();
 
   const totalStages = currentPlant.sprites.length + 1;
   const isMature = stage === totalStages;
@@ -23,7 +26,7 @@ export function usePlantGrowth(plantType: PlantType) {
     if (stage === 0) {
       setStage(1);
     } else if (isMature) {
-      console.log(`Colheu ${currentPlant.name}!`);
+      addMoney(currentPlant.sellPrice);
       setStage(0);
     }
   };
