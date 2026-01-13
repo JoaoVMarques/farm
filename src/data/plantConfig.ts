@@ -8,7 +8,7 @@ import { PlantCollection } from '../types/plantsTypes';
 export const PLANTS: PlantCollection = {
   wheat: {
     name: 'Trigo',
-    growTime: 10000,
+    growTime: 100,
     sprites: [wheat1, wheat2, wheat3, wheat4],
     sellPrice: 0.5,
   },
