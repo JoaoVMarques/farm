@@ -15,8 +15,8 @@ export function UnlockPopup() {
         className="game-toast"
       >
         <Toast.Header closeButton={ true }>
-          <strong className="me-auto">🎉 Nova Conquista!</strong>
-          <small>Agora mesmo</small>
+          <strong className="me-auto">🎉 Nova Feature!</strong>
+          <small>🏆</small>
         </Toast.Header>
         <Toast.Body className="text-white">
           { notification }
