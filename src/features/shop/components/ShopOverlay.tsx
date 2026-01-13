@@ -15,7 +15,7 @@ export function ShopOverlay({ onClose }: ShopProps) {
 
     const interval = setInterval(() => {
       setProgress((oldProgress) => {
-        const diff = Math.random() * 5;
+        const diff = Math.random() * 10;
         const newProgress = oldProgress + diff;
         if (newProgress >= 100) {
           return 100;
@@ -43,7 +43,7 @@ export function ShopOverlay({ onClose }: ShopProps) {
         { isLoading ? (
           <Card className="loading-card p-4 text-center">
             <h2 className="mb-4">Conectando ao Servidor...</h2>
-            <div className="mb-2">Discando (5kbps)...</div>
+            <div className="mb-2">Discando...</div>
             <ProgressBar
               animated
               now={ progress }
@@ -66,11 +66,10 @@ export function ShopOverlay({ onClose }: ShopProps) {
 
             <div className="shop-content text-center py-5">
               <h3>BEM VINDO À INTERNET RURAL!</h3>
-              <p>Aqui você vai comprar upgrades.</p>
+              <p>Aqui você vai comprar melhorias para você e sua fazenda.</p>
               <div className="mt-4 p-3 border bg-light">
                 <strong>ITEM EM DESTAQUE:</strong><br/>
-                   Licença de Fazendeiro (Nível 1)<br/>
-                <small>Preço: R$ 500,00 (Exemplo)</small>
+                   Em breve 🚧<br/>
               </div>
             </div>
           </Card>
