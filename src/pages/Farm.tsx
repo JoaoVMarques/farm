@@ -5,6 +5,7 @@ import { FarmPlot } from '../features/home/components';
 import '../styles/style.css';
 import { useState } from 'react';
 import { ShopOverlay } from '../features/shop/components/ShopOverlay';
+import marketIcon from '../assets/marketIcon.png';
 
 export function FarmPage() {
   const { money, isUnlocked } = useGame();
@@ -14,16 +15,17 @@ export function FarmPage() {
   return (
     <Container fluid
       className="game-background vh-100 d-flex justify-content-center align-items-center p-0">
+
       { isShopOpen && <ShopOverlay onClose={ () => setIsShopOpen(false) } /> }
       <UnlockPopup />
       <div className="hud-container">
         { isUnlocked('SHOW_MONEY_UI') && (
-          <Card className="money-card mb-2">
-            <Card.Body className="d-flex align-items-center p-2">
+          <Card className="money-card">
+            <Card.Body className="d-flex align-items-center p-2 ps-3 pe-4">
               <span className="fs-2 me-2">💰</span>
               <div className="lh-1">
                 <small className="text-muted fw-bold"
-                  style={ { fontSize: '0.75rem' } }>SALDO</small>
+                  style={ { fontSize: '0.75rem' } }>Saldo</small>
                 <div className="fw-bold text-success">R$ { money.toFixed(2) }</div>
               </div>
             </Card.Body>
@@ -31,15 +33,17 @@ export function FarmPage() {
         ) }
         { isUnlocked('UNLOCK_SHOP') && (
           <Button
-            variant="primary"
-            className="w-100 py-2 fw-bold shadow-sm"
+            variant="link"
+            className="hud-icon-btn"
             onClick={ () => setIsShopOpen(true) }
-            style={ { border: '2px solid #0d6efd' } }
+            title="Abrir Loja"
           >
-            🛒 LOJA
+            <img src={ marketIcon } alt="Loja" />
           </Button>
         ) }
+
       </div>
+
       <div className="farm-grid-area">
         <Row className="g-3 justify-content-center">
           { plots.map((_, index) => (
