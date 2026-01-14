@@ -17,7 +17,7 @@ export function SeedSelector({ show, onClose }: props) {
 return (
     <Modal show={show} onHide={onClose} centered size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>🎒 Saco de Sementes</Modal.Title>
+        <Modal.Title>🎒 Bolsa de Sementes</Modal.Title>
       </Modal.Header>
       <Modal.Body className="bg-light">
         <Row className="g-3">
@@ -32,7 +32,7 @@ return (
                     <img src={ seed.icon } alt="saco de semente" />
                     <h5 className="mt-2">{seed.name}</h5>
                     <div className="mt-2 fw-bold text-success">
-                        Venda: R$ {seed.sellPrice}
+                        Valor: R$ {seed.sellPrice}
                     </div>
                     {selectedSeed === seed.id && (
                         <div className="badge bg-success mt-2">Selecionada</div>

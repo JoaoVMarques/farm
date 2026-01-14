@@ -1,0 +1,21 @@
+* {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}

@@ -50,7 +50,7 @@ export function FarmPage() {
             <img src={ marketIcon } alt="Loja" />
           </Button>
         ) }
-        { isUnlocked('UNLOCK_SHOP') && (
+        { isUnlocked('UNLOCK_SEED_BAG') && (
           <Button
             variant="link"
             className="hud-icon-btn ms-2"
