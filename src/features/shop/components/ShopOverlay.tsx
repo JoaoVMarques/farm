@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Container, ProgressBar, Button, Card } from 'react-bootstrap';
+import adImage from '../../../assets/ad-popup/downloadMoreRam.png';
 import '../styles/shop.css';
 
 interface ShopProps {
@@ -9,6 +10,8 @@ interface ShopProps {
 export function ShopOverlay({ onClose }: ShopProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [showAd, setShowAd] = useState(false);
+  const [adPosition, setAdPosition] = useState({ top: '-1000px', left: '-1000px' });
 
   useEffect(() => {
     if (!isLoading) {return;}
@@ -28,6 +31,21 @@ export function ShopOverlay({ onClose }: ShopProps) {
   }, [isLoading]);
 
   useEffect(() => {
+    if (isLoading || showAd) {return;}
+    const randomTime = Math.random() * (45000 - 30000) + 30000;
+
+    const timer = setTimeout(() => {
+      const randomTop = Math.floor(Math.random() * 20) + 40;
+      const randomLeft = Math.floor(Math.random() * 20) + 40;
+
+      setAdPosition({ top: `${randomTop}%`, left: `${randomLeft}%` });
+      setShowAd(true);
+    }, randomTime);
+    return () => clearTimeout(timer);
+
+  }, [isLoading, showAd]);
+
+  useEffect(() => {
     if (progress >= 100) {
       const timeout = setTimeout(() => {
         setIsLoading(false);
@@ -39,6 +57,23 @@ export function ShopOverlay({ onClose }: ShopProps) {
 
   return (
     <div className="shop-overlay">
+      { showAd && (
+        <div className="ad-overlay">
+          <div className="ad-position-wrapper"
+            style={ { top: adPosition.top, left: adPosition.left } }
+          >
+            <img src={ adImage } alt="Propaganda" className="ad-image" />
+            <Button
+              variant="danger"
+              className="ad-close-btn p-0 d-flex justify-content-center align-items-center"
+              onClick={ () => setShowAd(false) }
+            >
+                X
+            </Button>
+
+          </div>
+        </div>
+      ) }
       <Container className="h-100 d-flex flex-column justify-content-center align-items-center">
         { isLoading ? (
           <Card className="loading-card p-4 text-center">
@@ -74,7 +109,6 @@ export function ShopOverlay({ onClose }: ShopProps) {
             </div>
           </Card>
         ) }
-
       </Container>
     </div>
   );
