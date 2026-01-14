@@ -3,6 +3,7 @@ export interface PlantData {
   growTime: number;
   sprites: string[];
   sellPrice: number
+  unlockedBy: string | null
 }
 
 export type PlantCollection = Record<string, PlantData>;

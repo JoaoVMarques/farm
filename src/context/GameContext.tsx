@@ -9,14 +9,18 @@ interface GameContextData {
   unlockedFeatures: Set<FeatureId>
   notification: string | null
   closeNotification: () => void
-  purchasedItems: string[];
-  buyItem: (itemId: string, cost: number, featureToUnlock?: string) => boolean;
+  purchasedItems: string[]
+  buyItem: (itemId: string, cost: number, featureToUnlock?: string) => boolean
+  selectedSeed: string
+  setSelectedSeed: (seed: string) => void
 }
 
 const GameContext = createContext({} as GameContextData);
 
 export function GameProvider({ children }: { children: ReactNode }) {
   const [money, setMoney] = useState(0);
+  const [selectedSeed, setSelectedSeed] = useState<string>('wheat');
+
   const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
 
   const [nextUnlockIndex, setNextUnlockIndex] = useState(0);
@@ -87,6 +91,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
       purchasedItems,
       unlockedFeatures,
       notification,
+
+      selectedSeed,
+      setSelectedSeed,
 
       buyItem,
       addMoney,

@@ -1,15 +1,19 @@
 import { Container, Card, Row, Col, Button } from 'react-bootstrap'; // Importe os componentes
 import { UnlockPopup } from '../components';
 import { useGame } from '../context/GameContext';
-import { FarmPlot } from '../features/home/components';
+import { FarmPlot, SeedSelector } from '../features/home/components';
 import '../styles/style.css';
 import { useState } from 'react';
 import { ShopOverlay } from '../features/shop/components/ShopOverlay';
 import marketIcon from '../assets/marketIcon.png';
 import { useFarmStats } from '../hooks';
+import { useSeedSystem } from '../hooks/useSeedSystem';
 
 export function FarmPage() {
   const [isShopOpen, setIsShopOpen] = useState(false);
+  const [isSeedMenuOpen, setIsSeedMenuOpen] = useState(false);
+
+  const { selectedSeed } = useSeedSystem();
 
   const { totalPlots } = useFarmStats();
   const { money, isUnlocked } = useGame();
@@ -21,6 +25,7 @@ export function FarmPage() {
       className="game-background vh-100 d-flex justify-content-center align-items-center p-0">
 
       { isShopOpen && <ShopOverlay onClose={ () => setIsShopOpen(false) } /> }
+      <SeedSelector show={ isSeedMenuOpen } onClose={ () => setIsSeedMenuOpen(false) } />
       <UnlockPopup />
       <div className="hud-container">
         { isUnlocked('SHOW_MONEY_UI') && (
@@ -45,6 +50,17 @@ export function FarmPage() {
             <img src={ marketIcon } alt="Loja" />
           </Button>
         ) }
+        { isUnlocked('UNLOCK_SHOP') && (
+          <Button
+            variant="link"
+            className="hud-icon-btn ms-2"
+            onClick={ () => setIsSeedMenuOpen(true) }
+            title="Trocar Sementes"
+          >
+            { /* Botar o icone de saco de semente aqui */ }
+            <span style={ { fontSize: '2rem' } }>🎒</span>
+          </Button>
+        ) }
 
       </div>
 
@@ -52,7 +68,7 @@ export function FarmPage() {
         <Row className="g-3 justify-content-center">
           { plots.map((_, index) => (
             <Col key={ index } xs="auto">
-              <FarmPlot plantType="carrot" />
+              <FarmPlot plantType={ selectedSeed } />
             </Col>
           )) }
         </Row>
