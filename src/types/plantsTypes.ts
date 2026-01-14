@@ -1,7 +1,8 @@
 export interface PlantData {
   name: string;
-  growTime: number;
-  sprites: string[];
+  growTime: number
+  sprites: string[]
+  icon: string
   sellPrice: number
   unlockedBy: string | null
 }

@@ -13,7 +13,7 @@ export function FarmPage() {
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isSeedMenuOpen, setIsSeedMenuOpen] = useState(false);
 
-  const { selectedSeed } = useSeedSystem();
+  const { selectedSeed, currentSeedData } = useSeedSystem();
 
   const { totalPlots } = useFarmStats();
   const { money, isUnlocked } = useGame();
@@ -57,8 +57,7 @@ export function FarmPage() {
             onClick={ () => setIsSeedMenuOpen(true) }
             title="Trocar Sementes"
           >
-            { /* Botar o icone de saco de semente aqui */ }
-            <span style={ { fontSize: '2rem' } }>🎒</span>
+            <img src={ currentSeedData.icon } alt="saco de semente" />
           </Button>
         ) }
 

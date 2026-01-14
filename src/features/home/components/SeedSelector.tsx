@@ -29,7 +29,7 @@ return (
                 style={{ cursor: 'pointer', transition: 'transform 0.2s' }}
               >
                 <Card.Body>
-                    <div style={{ fontSize: '2rem' }}>🌱</div> {/* trocar pelo seed.icon depois! (de: joão | para: joão)*/}
+                    <img src={ seed.icon } alt="saco de semente" />
                     <h5 className="mt-2">{seed.name}</h5>
                     <div className="mt-2 fw-bold text-success">
                         Venda: R$ {seed.sellPrice}

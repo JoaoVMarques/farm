@@ -11,4 +11,9 @@ export const UNLOCK_PATH: UnlockRule[] = [
     threshold: 2.00,
     description: 'E-Market liberado!',
   },
+  {
+    id: 'UNLOCK_SEED_BAG',
+    threshold: 15,
+    description: 'Bolsa de sementes liberado!',
+  },
 ];

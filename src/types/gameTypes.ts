@@ -1,6 +1,7 @@
 export type FeatureId =
   | 'SHOW_MONEY_UI'
-  | 'UNLOCK_SHOP';
+  | 'UNLOCK_SHOP'
+  | 'UNLOCK_SEED_BAG'
 
 export interface UnlockRule {
   id: FeatureId
