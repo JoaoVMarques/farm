@@ -1,5 +1,5 @@
 import { useState } from 'react'; // Removemos useEffect daqui!
-import { Container, Button, Card } from 'react-bootstrap';
+import { Container, Button, Card, Row, Col } from 'react-bootstrap';
 import { useFarmStats, useShop } from '../../../hooks';
 import '../styles/shop.css';
 import { AdSpamSystem } from '../../../components';
@@ -11,16 +11,13 @@ interface ShopProps {
 
 export function ShopOverlay({ onClose }: ShopProps) {
   const [isLoading, setIsLoading] = useState(true);
-
   const { availableItems, handlePurchase, money } = useShop();
   const { bonusInternetSpeed } = useFarmStats();
 
   return (
     <div className="shop-overlay">
       <AdSpamSystem active={ !isLoading } />
-
       <Container className="h-100 d-flex flex-column justify-content-center align-items-center">
-
         { isLoading ? (
           <ShopLoadingScreen
             onFinish={ () => setIsLoading(false) }
@@ -32,35 +29,45 @@ export function ShopOverlay({ onClose }: ShopProps) {
               <h1>🛒 AgroShop.com</h1>
               <Button variant="danger" onClick={ onClose }>X Fechar</Button>
             </div>
-
-            <div className="shop-content text-center py-5">
+            <div className="shop-content text-center py-3">
               <h3>BEM VINDO À INTERNET RURAL!</h3>
-              <p>Aqui você vai comprar melhorias para você e sua fazenda.</p>
+              <p className="mb-4">Aqui você vai comprar melhorias para você e sua fazenda.</p>
+              <div className="mt-2 p-3 border bg-light shop-scroll-area">
+                { availableItems.length === 0 ? (
+                  <p className="text-muted py-5">Mais upgrades em breve 🚧🚧🚧!</p>
+                ) : (
+                  <Row className="g-4">
+                    { availableItems.map(item => (
+                      <Col key={ item.id } xs={ 12 } md={ 4 }>
+                        <Card className="h-100 shop-item-card shadow-sm text-start">
+                          <Card.Body className="d-flex flex-column">
+                            <Card.Title className="fs-6 fw-bold">{ item.name }</Card.Title>
+                            <Card.Text className="small text-muted flex-grow-1">
+                              { item.description }
+                            </Card.Text>
+                            <div className="mt-3 text-center">
+                              <Button
+                                variant={ money >= item.price ? 'success' : 'outline-secondary' }
+                                size="sm"
+                                className="w-100 fw-bold"
+                                onClick={ () => handlePurchase(item) }
+                                disabled={ money < item.price }
+                              >
+                                { money >= item.price ? 'Comprar' : 'Falta Dinheiro' } <br/>
+                                  R$ { item.price.toFixed(2) }
+                              </Button>
+                            </div>
+                          </Card.Body>
+                        </Card>
 
-              <div className="mt-4 p-3 border bg-light">
-                <div className="shop-items-grid">
-                  { availableItems.length === 0 ? (
-                    <p>Nenhum item disponível. Mais upgrades em breve 🚧🚧🚧!</p>
-                  ) : (
-                    availableItems.map(item => (
-                      <div key={ item.id } className="shop-item-card">
-                        <h5>{ item.name }</h5>
-                        <p>{ item.description }</p>
-                        <button
-                          onClick={ () => handlePurchase(item) }
-                          disabled={ money < item.price }
-                        >
-                          Comprar R$ { item.price }
-                        </button>
-                      </div>
-                    ))
-                  ) }
-                </div>
+                      </Col>
+                    )) }
+                  </Row>
+                ) }
               </div>
             </div>
           </Card>
         ) }
-
       </Container>
     </div>
   );

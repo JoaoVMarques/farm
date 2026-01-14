@@ -17,7 +17,7 @@ export function AdSpamSystem({ active }: props) {
 
   useEffect(() => {
     if (!active || showAd) {return;}
-    const randomTime = Math.random() * (35000 - 20000) + 20000;
+    const randomTime = Math.random() * (15000 - 10000) + 10000;
     const timer = setTimeout(() => {
       const randomTop = Math.floor(Math.random() * 20) + 40;
       const randomLeft = Math.floor(Math.random() * 20) + 40;
