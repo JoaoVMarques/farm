@@ -13,7 +13,7 @@ export function usePlantGrowth(plantType: PlantType) {
   const isMature = stage === totalStages;
 
   useEffect(() => {
-    if (stage === 0 || isMature) {return;}
+    if (stage === 0 || stage === 1 || isMature) {return;}
 
     const timer = setTimeout(() => {
       setStage((prev) => prev + 1);
@@ -25,6 +25,9 @@ export function usePlantGrowth(plantType: PlantType) {
   const interact = () => {
     if (stage === 0) {
       setStage(1);
+
+    }  else if (stage === 1) {
+      setStage(2);
     } else if (isMature) {
       addMoney(currentPlant.sellPrice);
       setStage(0);
