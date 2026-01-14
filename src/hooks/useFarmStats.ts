@@ -18,11 +18,16 @@ export function useFarmStats() {
       acc.internet += itemConfig.effects.internetSpeed;
     }
 
+    if (itemConfig?.effects?.trapAdBlock) {
+      acc.hasFreeAdBlock = true;
+    }
+
     return acc;
-  }, { plots: 0, internet: 0 });
+  }, { plots: 0, internet: 0, hasFreeAdBlock: false });
 
   return {
     totalPlots: basePlots + stats.plots,
     bonusInternetSpeed: baseInternetSpeed + stats.internet,
+    hasFreeAdBlock: stats.hasFreeAdBlock,
   };
 }

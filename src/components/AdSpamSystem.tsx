@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { MiniAdItem } from './MiniAdItem';
 import { BIG_ADS } from '../data/adConfig';
+import { useFarmStats } from '../hooks';
 
 interface Props {
   active: boolean;
@@ -14,8 +15,25 @@ export function AdSpamSystem({ active }: Props) {
 
   const [miniAdIds, setMiniAdIds] = useState<number[]>([]);
 
+  const { hasFreeAdBlock } = useFarmStats();
+
+  const spawnMiniAds = (amount: number) => {
+    const newIds = Array.from({ length: amount }, (_, i) => Date.now() + i);
+    setMiniAdIds(prev => [...prev, ...newIds]);
+  };
+
+  const triggerPunishment = (amount: number) => {
+    setShowAd(false);
+    spawnMiniAds(amount);
+  };
+
   useEffect(() => {
     if (!active || showAd || miniAdIds.length > 0) {return;}
+    let timerToSpawnAdd = Math.random() * (15000 - 10000) + 10000;
+
+    if (hasFreeAdBlock) {
+      timerToSpawnAdd += 5000;
+    }
 
     const timer = setTimeout(() => {
       const rTop = Math.floor(Math.random() * 20) + 40;
@@ -25,17 +43,14 @@ export function AdSpamSystem({ active }: Props) {
       setCurrentAd(BIG_ADS[rImg]);
       setAdPosition({ top: `${rTop}%`, left: `${rLeft}%` });
       setShowAd(true);
-    }, Math.random() * (15000 - 10000) + 10000);
+
+      if (hasFreeAdBlock) {
+        spawnMiniAds(1);
+      }
+    }, timerToSpawnAdd);
 
     return () => clearTimeout(timer);
   }, [active, showAd, miniAdIds.length]);
-
-  const triggerPunishment = (amount: number) => {
-    setShowAd(false);
-
-    const newIds = Array.from({ length: amount }, (_, i) => Date.now() + i);
-    setMiniAdIds(prev => [...prev, ...newIds]);
-  };
 
   return (
     <div className="ad-system-container">
