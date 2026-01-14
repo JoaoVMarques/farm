@@ -4,6 +4,12 @@ import wheat3 from '../assets/plants/wheat/wheat3.png';
 import wheat4 from '../assets/plants/wheat/wheat4.png';
 import wheat5 from '../assets/plants/wheat/wheat5.png';
 
+import carrot1 from '../assets/plants/carrot/carrot1.png';
+import carrot2 from '../assets/plants/carrot/carrot2.png';
+import carrot3 from '../assets/plants/carrot/carrot3.png';
+import carrot4 from '../assets/plants/carrot/carrot4.png';
+import carrot5 from '../assets/plants/carrot/carrot5.png';
+
 import { PlantCollection } from '../types/plantsTypes';
 
 export const PLANTS: PlantCollection = {
@@ -12,6 +18,13 @@ export const PLANTS: PlantCollection = {
     growTime: 10000,
     sprites: [wheat1, wheat2, wheat3, wheat4, wheat5],
     sellPrice: 0.5,
+  },
+
+  carrot: {
+    name: 'Cenoura',
+    growTime: 16000,
+    sprites: [carrot1, carrot2, carrot3, carrot4, carrot5],
+    sellPrice: 1.1,
   },
 };
 

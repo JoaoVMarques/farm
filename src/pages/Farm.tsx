@@ -52,7 +52,7 @@ export function FarmPage() {
         <Row className="g-3 justify-content-center">
           { plots.map((_, index) => (
             <Col key={ index } xs="auto">
-              <FarmPlot plantType="wheat" />
+              <FarmPlot plantType="carrot" />
             </Col>
           )) }
         </Row>
