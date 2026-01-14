@@ -53,7 +53,7 @@ export const SHOP_ITEMS: ShopItem[] = [
     id: 'carrot_seed',
     name: 'Semente de cenoura',
     description: 'São um pouco mais lentas, porém vale cada segundo de espera',
-    price: 15,
+    price: 7.50,
     requires: 'plot_expansion_1',
   },
 ];

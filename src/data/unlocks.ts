@@ -13,7 +13,7 @@ export const UNLOCK_PATH: UnlockRule[] = [
   },
   {
     id: 'UNLOCK_SEED_BAG',
-    threshold: 15,
+    threshold: 7.50,
     description: 'Bolsa de sementes liberado!',
   },
 ];
