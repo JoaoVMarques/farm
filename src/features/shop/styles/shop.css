@@ -94,3 +94,39 @@
   border-color: #0d6efd;
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
+
+.mini-ad-wrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 4000;
+  pointer-events: auto;
+}
+
+.mini-ad-style {
+  padding: 4px;
+  border: 2px outset #ffffff;
+  background-color: #c0c0c0;
+  box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+}
+
+.ad-image-mini {
+  width: 200px;
+  height: 150px;
+  border: 2px solid black;
+  display: block;
+}
+
+.ad-close-btn-mini {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 2px solid white !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  z-index: 4001;
+  line-height: 1;
+}

@@ -53,7 +53,7 @@ export function ShopOverlay({ onClose }: ShopProps) {
                                 onClick={ () => handlePurchase(item) }
                                 disabled={ money < item.price }
                               >
-                                { money >= item.price ? 'Comprar' : 'Falta Dinheiro' } <br/>
+                                { money >= item.price ? 'Comprar' : 'Dinheiro insuficiente!' } <br/>
                                   R$ { item.price.toFixed(2) }
                               </Button>
                             </div>
