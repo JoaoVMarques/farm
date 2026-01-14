@@ -1,7 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Container, ProgressBar, Button, Card } from 'react-bootstrap';
-import adImage from '../../../assets/ad-popup/downloadMoreRam.png';
+import adMoreRam from '../../../assets/ad-popup/downloadMoreRam.png';
+import adSolteiras from '../../../assets/ad-popup/partidasSolteiras.png';
+import adVirusAlert from '../../../assets/ad-popup/virusAlert.png';
 import '../styles/shop.css';
+
+const AD_LIST = [
+  adMoreRam,
+  adSolteiras,
+  adVirusAlert,
+];
 
 interface ShopProps {
   onClose: () => void;
@@ -11,6 +19,7 @@ export function ShopOverlay({ onClose }: ShopProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [showAd, setShowAd] = useState(false);
+  const [currentAd, setCurrentAd] = useState(AD_LIST[0]);
   const [adPosition, setAdPosition] = useState({ top: '-1000px', left: '-1000px' });
 
   useEffect(() => {
@@ -32,12 +41,15 @@ export function ShopOverlay({ onClose }: ShopProps) {
 
   useEffect(() => {
     if (isLoading || showAd) {return;}
-    const randomTime = Math.random() * (45000 - 30000) + 30000;
+    const randomTime = Math.random() * (35000 - 20000) + 20000;
 
     const timer = setTimeout(() => {
       const randomTop = Math.floor(Math.random() * 20) + 40;
       const randomLeft = Math.floor(Math.random() * 20) + 40;
 
+      const randomIndex = Math.floor(Math.random() * AD_LIST.length);
+
+      setCurrentAd(AD_LIST[randomIndex]);
       setAdPosition({ top: `${randomTop}%`, left: `${randomLeft}%` });
       setShowAd(true);
     }, randomTime);
@@ -62,7 +74,7 @@ export function ShopOverlay({ onClose }: ShopProps) {
           <div className="ad-position-wrapper"
             style={ { top: adPosition.top, left: adPosition.left } }
           >
-            <img src={ adImage } alt="Propaganda" className="ad-image" />
+            <img src={ currentAd } alt="Propaganda" className="ad-image" />
             <Button
               variant="danger"
               className="ad-close-btn p-0 d-flex justify-content-center align-items-center"
