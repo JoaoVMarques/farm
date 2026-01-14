@@ -1,6 +1,6 @@
 import { useState } from 'react'; // Removemos useEffect daqui!
 import { Container, Button, Card } from 'react-bootstrap';
-import { useShop } from '../../../hooks';
+import { useFarmStats, useShop } from '../../../hooks';
 import '../styles/shop.css';
 import { AdSpamSystem } from '../../../components';
 import { ShopLoadingScreen } from './ShopLoadingScreen';
@@ -13,6 +13,7 @@ export function ShopOverlay({ onClose }: ShopProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   const { availableItems, handlePurchase, money } = useShop();
+  const { bonusInternetSpeed } = useFarmStats();
 
   return (
     <div className="shop-overlay">
@@ -21,7 +22,10 @@ export function ShopOverlay({ onClose }: ShopProps) {
       <Container className="h-100 d-flex flex-column justify-content-center align-items-center">
 
         { isLoading ? (
-          <ShopLoadingScreen onFinish={ () => setIsLoading(false) } />
+          <ShopLoadingScreen
+            onFinish={ () => setIsLoading(false) }
+            bonusSpeed={ bonusInternetSpeed }
+          />
         ) : (
           <Card className="shop-window p-4">
             <div className="d-flex justify-content-between align-items-center mb-4">
@@ -36,7 +40,7 @@ export function ShopOverlay({ onClose }: ShopProps) {
               <div className="mt-4 p-3 border bg-light">
                 <div className="shop-items-grid">
                   { availableItems.length === 0 ? (
-                    <p>Nenhum item disponível. Jogue mais para liberar!</p>
+                    <p>Nenhum item disponível. Mais upgrades em breve 🚧🚧🚧!</p>
                   ) : (
                     availableItems.map(item => (
                       <div key={ item.id } className="shop-item-card">

@@ -3,15 +3,18 @@ import { Card, ProgressBar } from 'react-bootstrap';
 
 interface props {
   onFinish: () => void
+  bonusSpeed: number
 }
 
-export function ShopLoadingScreen({ onFinish }: props) {
+export function ShopLoadingScreen({ onFinish, bonusSpeed }: props) {
   const [progress, setProgress] = useState(0);
+
+  const fakeKbps = 10 + bonusSpeed;
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((oldProgress) => {
-        const diff = Math.random() * 10;
+        const diff = (Math.random() * 10) + bonusSpeed;
         const newProgress = oldProgress + diff;
 
         if (newProgress >= 100) {
@@ -22,7 +25,7 @@ export function ShopLoadingScreen({ onFinish }: props) {
     }, 500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [bonusSpeed]);
 
   useEffect(() => {
     if (progress >= 100) {
@@ -37,7 +40,7 @@ export function ShopLoadingScreen({ onFinish }: props) {
   return (
     <Card className="loading-card p-4 text-center">
       <h2 className="mb-4">Conectando ao Servidor...</h2>
-      <div className="mb-2">Discando ...</div>
+      <div className="mb-2">Discando ({ fakeKbps }kbps)...</div>
       <ProgressBar
         animated
         now={ progress }
