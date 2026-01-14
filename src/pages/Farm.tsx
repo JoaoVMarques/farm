@@ -6,11 +6,15 @@ import '../styles/style.css';
 import { useState } from 'react';
 import { ShopOverlay } from '../features/shop/components/ShopOverlay';
 import marketIcon from '../assets/marketIcon.png';
+import { useFarmStats } from '../hooks';
 
 export function FarmPage() {
-  const { money, isUnlocked } = useGame();
   const [isShopOpen, setIsShopOpen] = useState(false);
-  const plots = Array.from({ length: 1 });
+
+  const { totalPlots } = useFarmStats();
+  const { money, isUnlocked } = useGame();
+
+  const plots = Array.from({ length: totalPlots });
 
   return (
     <Container fluid

@@ -7,6 +7,9 @@ export interface ShopItem {
   price: number
   requires?: ShopItemId
   unlocksFeature?: string
+  effects?: {
+    addPlot?: number
+  }
 }
 
 export const SHOP_ITEMS: ShopItem[] = [
@@ -15,6 +18,7 @@ export const SHOP_ITEMS: ShopItem[] = [
     name: 'Expansao de terra I',
     description: 'Libera mais um slot para plantar',
     price: 2,
+    effects: { addPlot: 1 },
   },
   {
     id: 'plot_expansion_2',
@@ -22,5 +26,6 @@ export const SHOP_ITEMS: ShopItem[] = [
     description: 'Libera mais um slot para plantar, (AGORA 3!)',
     price: 14.9,
     requires: 'plot_expansion_1',
+    effects: { addPlot: 1 },
   },
 ];
