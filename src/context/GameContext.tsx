@@ -9,15 +9,19 @@ interface GameContextData {
   unlockedFeatures: Set<FeatureId>
   notification: string | null
   closeNotification: () => void
+  purchasedItems: string[];
+  buyItem: (itemId: string, cost: number, featureToUnlock?: string) => boolean;
 }
 
 const GameContext = createContext({} as GameContextData);
 
 export function GameProvider({ children }: { children: ReactNode }) {
-  const [ money, setMoney ] = useState(0);
+  const [money, setMoney] = useState(0);
+  const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
+
   const [nextUnlockIndex, setNextUnlockIndex] = useState(0);
-  const [ unlockedFeatures, setUnlockedFeatures] = useState<Set<FeatureId>>(new Set());
-  const [ notification, setNotification ] = useState<string | null>(null);
+  const [unlockedFeatures, setUnlockedFeatures] = useState<Set<FeatureId>>(new Set());
+  const [notification, setNotification] = useState<string | null>(null);
 
   const closeNotification = () => setNotification(null);
 
@@ -26,6 +30,21 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setMoney(newMoney);
 
     checkUnlocks(newMoney);
+  };
+
+  const buyItem = (itemId: string, cost: number, featureToUnlock?: string) => {
+    if (money < cost) {return false;}
+
+    if (purchasedItems.includes(itemId)) {return false;}
+
+    setMoney((prev) => prev - cost);
+    setPurchasedItems ((prev) => [...prev, itemId]);
+
+    if (featureToUnlock) {
+      console.log(featureToUnlock);
+    }
+
+    return true;
   };
 
   const checkUnlocks = (currentMoney: number) => {
@@ -65,10 +84,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
   return (
     <GameContext.Provider value={ {
       money,
-      addMoney,
-      isUnlocked,
+      purchasedItems,
       unlockedFeatures,
       notification,
+
+      buyItem,
+      addMoney,
+      isUnlocked,
       closeNotification,
     } }>
       { children }

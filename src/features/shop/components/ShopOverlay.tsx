@@ -4,6 +4,7 @@ import adMoreRam from '../../../assets/ad-popup/downloadMoreRam.png';
 import adSolteiras from '../../../assets/ad-popup/partidasSolteiras.png';
 import adVirusAlert from '../../../assets/ad-popup/virusAlert.png';
 import '../styles/shop.css';
+import { useShop } from '../../../hooks';
 
 const AD_LIST = [
   adMoreRam,
@@ -21,6 +22,7 @@ export function ShopOverlay({ onClose }: ShopProps) {
   const [showAd, setShowAd] = useState(false);
   const [currentAd, setCurrentAd] = useState(AD_LIST[0]);
   const [adPosition, setAdPosition] = useState({ top: '-1000px', left: '-1000px' });
+  const { availableItems, handlePurchase, money } = useShop();
 
   useEffect(() => {
     if (!isLoading) {return;}
@@ -115,8 +117,24 @@ export function ShopOverlay({ onClose }: ShopProps) {
               <h3>BEM VINDO À INTERNET RURAL!</h3>
               <p>Aqui você vai comprar melhorias para você e sua fazenda.</p>
               <div className="mt-4 p-3 border bg-light">
-                <strong>ITEM EM DESTAQUE:</strong><br/>
-                   Em breve 🚧<br/>
+                <div className="shop-items-grid">
+                  { availableItems.length === 0 ? (
+                    <p>Nenhum item disponível no momento. Jogue mais!</p>
+                  ) : (
+                    availableItems.map(item => (
+                      <div key={ item.id } className="shop-item-card">
+                        <h5>{ item.name }</h5>
+                        <p>{ item.description }</p>
+                        <button
+                          onClick={ () => handlePurchase(item) }
+                          disabled={ money < item.price } // Desabilita se for pobre
+                        >
+                    Comprar R$ { item.price }
+                        </button>
+                      </div>
+                    ))
+                  ) }
+                </div>
               </div>
             </div>
           </Card>
