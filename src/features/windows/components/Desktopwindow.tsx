@@ -1,6 +1,6 @@
 import { Modal } from 'react-bootstrap';
-import marketIcon from '../../../assets/marketIcon.png';
-import settingsIcon from '../../../assets/configIcon.png';
+import marketIcon from '../../../assets/imgs/icons/marketIcon.png';
+import settingsIcon from '../../../assets/imgs/icons/configIcon.png';
 import '../styles/window.css';
 import { useGame } from '../../../context/GameContext';
 

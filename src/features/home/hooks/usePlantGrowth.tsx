@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../../../context/GameContext';
 import { PLANTS, PlantType } from '../../../data/plantConfig';
-import tilledDirtSprite from '../../../assets/plotPlanted.png';
+import tilledDirtSprite from '../../../assets/imgs/plotPlanted.png';
 import { useSfx } from '../../../hooks';
 
 export function usePlantGrowth(seedInHand: PlantType) {

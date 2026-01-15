@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { MiniAdItem } from './MiniAdItem';
 import { BIG_ADS } from '../data/adConfig';
-import { useFarmStats } from '../hooks';
+import { useFarmStats, useSfx } from '../hooks';
 import { AD_BLOCK_IMG } from '../data/adConfig';
 
 interface Props {
@@ -22,6 +22,7 @@ export function AdSpamSystem({ active }: Props) {
   const [miniAdIds, setMiniAdIds] = useState<MiniAdObject[]>([]);
 
   const { hasFreeAdBlock } = useFarmStats();
+  const { adClick, adAppear } = useSfx();
 
   const spawnMiniAds = (amount: number, specificImg?: string) => {
     const newAds = Array.from({ length: amount }, (_, i) => ({
@@ -32,6 +33,7 @@ export function AdSpamSystem({ active }: Props) {
   };
 
   const triggerPunishment = (amount: number) => {
+    adClick();
     setShowAd(false);
     spawnMiniAds(amount);
   };
@@ -52,6 +54,7 @@ export function AdSpamSystem({ active }: Props) {
       setCurrentAd(BIG_ADS[rImg]);
       setAdPosition({ top: `${rTop}%`, left: `${rLeft}%` });
       setShowAd(true);
+      adAppear();
 
       if (hasFreeAdBlock) {
         spawnMiniAds(1, AD_BLOCK_IMG);

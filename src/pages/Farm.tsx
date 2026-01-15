@@ -4,12 +4,11 @@ import { useGame } from '../context/GameContext';
 import { FarmPlot, SeedSelector } from '../features/home/components';
 import { SettingsMenu } from '../features/home/components/SettingsMenu';
 import { DesktopWindow } from '../features/windows/components/Desktopwindow';
-import '../styles/style.css';
 import { useState } from 'react';
 import { ShopOverlay } from '../features/shop/components/ShopOverlay';
+import { useFarmStats, useSeedSystem } from '../hooks';
 import wandoosIcon from '../assets/imgs/icons/wandoos-96.png';
-import { useFarmStats } from '../hooks';
-import { useSeedSystem } from '../hooks/useSeedSystem';
+import '../styles/style.css';
 
 export function FarmPage() {
   const [isPcOpen, setIsPcOpen] = useState(false);

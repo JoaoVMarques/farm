@@ -1,4 +1,4 @@
-import plantgrowing1 from '../assets/sounds/plantGrow1.wav';
+import { PLANT_SFX, UI_SFX } from '../assets/sounds';
 
 const soundCooldowns: Record<string, number> = {};
 
@@ -22,7 +22,16 @@ export function useSfx() {
     }
   };
 
+  const playRandom = (soundArray: string[], volume = 0.5, cooldownMs = 0) => {
+    const randomIndex = Math.floor(Math.random() * soundArray.length);
+    const selectedSound = soundArray[randomIndex];
+
+    play(selectedSound, volume, cooldownMs);
+  };
+
   return {
-    plantGrowing: () => play(plantgrowing1, 0.5, 2000),
+    plantGrowing: () => play(PLANT_SFX.Mature, 0.5, 2000),
+    adClick: () => play(UI_SFX.CLICK_AD, 0.9, 0),
+    adAppear: () => playRandom(UI_SFX.AD_APPEAR_VARIATIONS, 0.5, 0),
   };
 }
