@@ -28,7 +28,7 @@ export const PLANTS: PlantCollection = {
     name: 'Cenoura',
     growTime: 8000,
     sprites: [carrot1, carrot2, carrot3, carrot4, carrot5],
-    sellPrice: 0.8,
+    sellPrice: 0.85,
     unlockedBy: 'carrot_seed',
     icon: carrotIcon,
   },
