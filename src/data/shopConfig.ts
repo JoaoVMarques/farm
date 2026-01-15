@@ -1,3 +1,5 @@
+import { FeatureId } from '../types/gameTypes';
+
 export type ShopItemId = 'plot_expansion_1'
   | 'plot_expansion_2'
   | 'internet_speed_1'
@@ -14,7 +16,7 @@ export interface ShopItem {
   description: string
   price: number
   requires?: ShopItemId
-  unlocksFeature?: string
+  unlocksFeature?: { id: FeatureId, description: string }
   effects?: {
     addPlot?: number
     internetSpeed?: number
@@ -89,6 +91,10 @@ export const SHOP_ITEMS: ShopItem[] = [
     id: 'settings_menu',
     name: 'Janela de configurações? + (bonus)',
     description: 'eu preciso pagar pelas configurações? Que devzinho mais mercenario hein..',
+    unlocksFeature: {
+      id: 'GAME_SETTINGS',
+      description: 'Uma feature que ja tinha que estar desde o começo do jogo 🎊🎊🎈🎈',
+    },
     price: 10,
     requires: 'carrot_seed',
   },

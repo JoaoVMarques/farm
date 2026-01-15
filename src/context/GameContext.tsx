@@ -10,7 +10,9 @@ interface GameContextData {
   notification: string | null
   closeNotification: () => void
   purchasedItems: string[]
-  buyItem: (itemId: string, cost: number, featureToUnlock?: string) => boolean
+  buyItem: (itemId: string,
+    cost: number,
+    featureToUnlock?: { id: FeatureId, description: string }) => boolean
   selectedSeed: string
   setSelectedSeed: (seed: string) => void
 }
@@ -36,7 +38,10 @@ export function GameProvider({ children }: { children: ReactNode }) {
     checkUnlocks(newMoney);
   };
 
-  const buyItem = (itemId: string, cost: number, featureToUnlock?: string) => {
+  const buyItem = (itemId: string,
+    cost: number,
+    featureToUnlock?: { id: FeatureId, description: string },
+  ) => {
     if (money < cost) {return false;}
 
     if (purchasedItems.includes(itemId)) {return false;}
@@ -45,9 +50,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setPurchasedItems ((prev) => [...prev, itemId]);
 
     if (featureToUnlock) {
-      console.log(featureToUnlock);
-    }
+      setUnlockedFeatures((prev) => {
+        const featureId = featureToUnlock.id;
+        if (prev.has(featureId)) { return prev; }
 
+        const newSet = new Set(prev);
+        newSet.add(featureId);
+        setNotification(featureToUnlock.description);
+
+        return newSet;
+      });
+    }
     return true;
   };
 
