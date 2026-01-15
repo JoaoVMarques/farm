@@ -17,9 +17,9 @@ import { PlantCollection } from '../types/plantsTypes';
 export const PLANTS: PlantCollection = {
   wheat: {
     name: 'Trigo',
-    growTime: 5000,
+    growTime: 500,
     sprites: [wheat1, wheat2, wheat3, wheat4, wheat5],
-    sellPrice: 0.30,
+    sellPrice: 1000.30,
     unlockedBy: null,
     icon: wheatIcon,
   },
