@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useGame } from '../../../context/GameContext';
 import { PLANTS, PlantType } from '../../../data/plantConfig';
 import tilledDirtSprite from '../../../assets/plotPlanted.png';
+import { useSfx } from '../../../hooks';
 
 export function usePlantGrowth(seedInHand: PlantType) {
   const [stage, setStage] = useState(0);
   const [plantedSeed, setPlantedSeed] = useState<PlantType>(seedInHand);
 
+  const { plantGrowing } = useSfx();
   const { addMoney } = useGame();
 
   const activeSeedType = stage === 0 ? seedInHand : plantedSeed;
@@ -14,6 +16,18 @@ export function usePlantGrowth(seedInHand: PlantType) {
 
   const totalStages = currentPlant.sprites.length + 1;
   const isMature = stage === totalStages;
+
+  const playedMatureSfxRef = useRef(false);
+
+  useEffect(() => {
+    if (isMature && !playedMatureSfxRef.current) {
+      plantGrowing();
+      playedMatureSfxRef.current = true;
+    }
+    if (!isMature) {
+      playedMatureSfxRef.current = false;
+    }
+  }, [isMature]);
 
   useEffect(() => {
     if (stage === 0 || stage === 1 || isMature) { return; }
