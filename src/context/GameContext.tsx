@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useRef } from 'react';
 import { FeatureId } from '../types/gameTypes';
 import { GameSaveData } from '../types/saveTypes';
 import { loadGameFromStorage, saveGameToStorage } from '../utils/saveSystem';
@@ -18,6 +24,7 @@ interface GameContextData {
   selectedSeed: string
   setSelectedSeed: (seed: string) => void
   saveGame: () => void
+  hardResetGame: () => void;
 }
 
 const GameContext = createContext({} as GameContextData);
@@ -29,6 +36,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const [selectedSeed, setSelectedSeed] = useState(saveData?.selectedSeed ?? 'wheat');
   const [purchasedItems, setPurchasedItems] = useState<string[]>(saveData?.purchasedItems ?? []);
   const [notification, setNotification] = useState<string | null>(null);
+
+  const isResetting = useRef(false);
 
   const { unlockedFeatures, checkProgress, unlockFeature } = useUnlockSystem(
     (saveData?.unlockedFeatures as FeatureId[]) || [],
@@ -56,6 +65,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
   };
 
   const saveGame = useCallback(() => {
+    if (isResetting.current) {return;}
+
     const data: GameSaveData = {
       money,
       purchasedItems,
@@ -65,6 +76,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
     };
     saveGameToStorage(data);
   }, [money, purchasedItems, unlockedFeatures, selectedSeed]);
+
+  const hardResetGame = () => {
+    isResetting.current = true;
+    localStorage.removeItem('farm_save');
+    window.location.reload();
+  };
 
   useEffect(() => {
     const timer = setInterval(saveGame, 60 * 1000);
@@ -80,7 +97,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
     <GameContext.Provider value={ {
       money, purchasedItems, unlockedFeatures, notification, selectedSeed,
       addMoney, buyItem, isUnlocked: (id) => unlockedFeatures.has(id),
-      closeNotification, setSelectedSeed, saveGame,
+      closeNotification, setSelectedSeed, saveGame, hardResetGame,
     } }>
       { children }
     </GameContext.Provider>
