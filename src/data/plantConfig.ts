@@ -19,7 +19,7 @@ export const PLANTS: PlantCollection = {
     name: 'Trigo',
     growTime: 5,
     sprites: [wheat1, wheat2, wheat3, wheat4, wheat5],
-    sellPrice: 0.4,
+    sellPrice: 100.4,
     unlockedBy: null,
     icon: wheatIcon,
   },

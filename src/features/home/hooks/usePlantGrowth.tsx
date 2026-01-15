@@ -8,7 +8,7 @@ export function usePlantGrowth(seedInHand: PlantType) {
   const [stage, setStage] = useState(0);
   const [plantedSeed, setPlantedSeed] = useState<PlantType>(seedInHand);
 
-  const { plantGrowing } = useSfx();
+  const { plantMature } = useSfx();
   const { addMoney } = useGame();
 
   const activeSeedType = stage === 0 ? seedInHand : plantedSeed;
@@ -21,7 +21,7 @@ export function usePlantGrowth(seedInHand: PlantType) {
 
   useEffect(() => {
     if (isMature && !playedMatureSfxRef.current) {
-      plantGrowing();
+      plantMature();
       playedMatureSfxRef.current = true;
     }
     if (!isMature) {

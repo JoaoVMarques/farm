@@ -5,13 +5,16 @@ import Router from './Routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { GameProvider } from './context/GameContext';
 import './styles/index.css';
+import { SettingsProvider } from './context/SettingsContext';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <GameProvider>
-      <BrowserRouter>
-        <Router />
-      </BrowserRouter>
-    </GameProvider>
+    <SettingsProvider>
+      <GameProvider>
+        <BrowserRouter>
+          <Router />
+        </BrowserRouter>
+      </GameProvider>
+    </SettingsProvider>
   </StrictMode>,
 );
