@@ -6,16 +6,17 @@ import { MINI_ADS } from '../data/adConfig';
 interface MiniAdProps {
   id: number;
   onClose: (id: number) => void;
+  forcedImg?: string
 }
 
-export function MiniAdItem({ id, onClose }: MiniAdProps) {
+export function MiniAdItem({ id, onClose, forcedImg }: MiniAdProps) {
   const config = useMemo(() => {
     return {
       top: `${Math.floor(Math.random() * 60) + 20}%`,
       left: `${Math.floor(Math.random() * 60) + 20}%`,
-      img: MINI_ADS[Math.floor(Math.random() * MINI_ADS.length)],
+      img: forcedImg || MINI_ADS[Math.floor(Math.random() * MINI_ADS.length)],
     };
-  }, []);
+  }, [forcedImg]);
 
   return (
     <div className="mini-ad-wrapper" style={ { top: config.top, left: config.left } }>

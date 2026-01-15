@@ -3,9 +3,15 @@ import { Button } from 'react-bootstrap';
 import { MiniAdItem } from './MiniAdItem';
 import { BIG_ADS } from '../data/adConfig';
 import { useFarmStats } from '../hooks';
+import { AD_BLOCK_IMG } from '../data/adConfig';
 
 interface Props {
   active: boolean;
+}
+
+interface MiniAdObject {
+  id: number;
+  img?: string;
 }
 
 export function AdSpamSystem({ active }: Props) {
@@ -13,13 +19,16 @@ export function AdSpamSystem({ active }: Props) {
   const [currentAd, setCurrentAd] = useState(BIG_ADS[0]);
   const [adPosition, setAdPosition] = useState({ top: '50%', left: '50%' });
 
-  const [miniAdIds, setMiniAdIds] = useState<number[]>([]);
+  const [miniAdIds, setMiniAdIds] = useState<MiniAdObject[]>([]);
 
   const { hasFreeAdBlock } = useFarmStats();
 
-  const spawnMiniAds = (amount: number) => {
-    const newIds = Array.from({ length: amount }, (_, i) => Date.now() + i);
-    setMiniAdIds(prev => [...prev, ...newIds]);
+  const spawnMiniAds = (amount: number, specificImg?: string) => {
+    const newAds = Array.from({ length: amount }, (_, i) => ({
+      id: Date.now() + i,
+      img: specificImg,
+    }));
+    setMiniAdIds(prev => [...prev, ...newAds]);
   };
 
   const triggerPunishment = (amount: number) => {
@@ -45,7 +54,7 @@ export function AdSpamSystem({ active }: Props) {
       setShowAd(true);
 
       if (hasFreeAdBlock) {
-        spawnMiniAds(1);
+        spawnMiniAds(1, AD_BLOCK_IMG);
       }
     }, timerToSpawnAdd);
 
@@ -78,11 +87,12 @@ export function AdSpamSystem({ active }: Props) {
         </div>
       ) }
 
-      { miniAdIds.map((id) => (
+      { miniAdIds.map((adObj) => (
         <MiniAdItem
-          key={ id }
-          id={ id }
-          onClose={ (closedId) => setMiniAdIds(prev => prev.filter(pid => pid !== closedId)) }
+          key={ adObj.id }
+          id={ adObj.id }
+          forcedImg={ adObj.img }
+          onClose={ (closedId) => setMiniAdIds(prev => prev.filter((p) => p.id !== closedId)) }
         />
       )) }
     </div>
