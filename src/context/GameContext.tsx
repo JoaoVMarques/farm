@@ -1,6 +1,7 @@
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { FeatureId } from '../types/gameTypes';
 import { UNLOCK_PATH } from '../data/unlocks';
+import { GameSaveData } from '../types/saveTypes';
 
 interface GameContextData {
   money: number
@@ -15,20 +16,42 @@ interface GameContextData {
     featureToUnlock?: { id: FeatureId, description: string }) => boolean
   selectedSeed: string
   setSelectedSeed: (seed: string) => void
+  saveGame: () => void
 }
+
+const SAVE_KEY = 'farm_save';
 
 const GameContext = createContext({} as GameContextData);
 
 export function GameProvider({ children }: { children: ReactNode }) {
-  const [money, setMoney] = useState(0);
-  const [selectedSeed, setSelectedSeed] = useState<string>('wheat');
+  const loadSave = (): GameSaveData | null => {
+    const saved = localStorage.getItem(SAVE_KEY);
+    if (!saved) {return null;}
+    try {
+      return JSON.parse(saved);
+    } catch (e) {
+      console.error('Save corrompido, resetando...', e);
+      return null;
+    }
+  };
 
-  const [purchasedItems, setPurchasedItems] = useState<string[]>([]);
+  const saveData = loadSave();
+
+  const [money, setMoney] = useState(() => saveData ? saveData.money : 0);
+  const [selectedSeed, setSelectedSeed] = useState<string>(() =>
+    saveData ? saveData.selectedSeed : 'wheat',
+  );
+
+  const [purchasedItems, setPurchasedItems] = useState<string[]>(() =>
+    saveData ? saveData.purchasedItems : [],
+  );
+
+  const [unlockedFeatures, setUnlockedFeatures] = useState<Set<FeatureId>>(() =>
+    saveData ? new Set(saveData.unlockedFeatures as FeatureId[]) : new Set(),
+  );
 
   const [nextUnlockIndex, setNextUnlockIndex] = useState(0);
-  const [unlockedFeatures, setUnlockedFeatures] = useState<Set<FeatureId>>(new Set());
   const [notification, setNotification] = useState<string | null>(null);
-
   const closeNotification = () => setNotification(null);
 
   const addMoney = (amount: number) => {
@@ -63,6 +86,45 @@ export function GameProvider({ children }: { children: ReactNode }) {
     }
     return true;
   };
+
+  const saveGame = useCallback(() => {
+    const dataToSave: GameSaveData = {
+      money,
+      purchasedItems,
+      unlockedFeatures: Array.from(unlockedFeatures),
+      selectedSeed,
+      lastSaveTime: Date.now(),
+    };
+
+    localStorage.setItem(SAVE_KEY, JSON.stringify(dataToSave));
+    console.log('Jogo Salvo! 💾', new Date().toLocaleTimeString());
+
+    // MOSTRAR ALGO VISUAL DEPOIS PARA MOSTRAR QUE SALVOU
+  }, [money, purchasedItems, unlockedFeatures, selectedSeed]);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      saveGame();
+    }, 60 * 1000);
+
+    const handleBeforeUnload = () => saveGame();
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [saveGame]);
+
+  useEffect(() => {
+    if (nextUnlockIndex === 0 && money > 0) {
+      let index = 0;
+      while (index < UNLOCK_PATH.length && unlockedFeatures.has(UNLOCK_PATH[index].id)) {
+        index++;
+      }
+      setNextUnlockIndex(index);
+    }
+  }, []);
 
   const checkUnlocks = (currentMoney: number) => {
     if (nextUnlockIndex >= UNLOCK_PATH.length) {return;}
@@ -104,6 +166,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       purchasedItems,
       unlockedFeatures,
       notification,
+      saveGame,
 
       selectedSeed,
       setSelectedSeed,
