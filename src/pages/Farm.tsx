@@ -2,16 +2,17 @@ import { Container, Card, Row, Col, Button } from 'react-bootstrap';
 import { UnlockPopup } from '../components';
 import { useGame } from '../context/GameContext';
 import { FarmPlot, SeedSelector } from '../features/home/components';
-import { SettingsMenu } from '../features/home/components/';
+import { SettingsMenu } from '../features/home/components/SettingsMenu';
+import { DesktopWindow } from '../features/windows/components/Desktopwindow';
 import '../styles/style.css';
 import { useState } from 'react';
 import { ShopOverlay } from '../features/shop/components/ShopOverlay';
-import marketIcon from '../assets/marketIcon.png';
-import configIcon from '../assets/configIcon.png';
+import wandoosIcon from '../assets/imgs/icons/wandoos-96.png';
 import { useFarmStats } from '../hooks';
 import { useSeedSystem } from '../hooks/useSeedSystem';
 
 export function FarmPage() {
+  const [isPcOpen, setIsPcOpen] = useState(false);
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isSeedMenuOpen, setIsSeedMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -25,12 +26,17 @@ export function FarmPage() {
   return (
     <Container fluid
       className="game-background vh-100 d-flex justify-content-center align-items-center p-0">
+      <DesktopWindow
+        show={ isPcOpen }
+        onClose={ () => setIsPcOpen(false) }
+        onOpenShop={ () => setIsShopOpen(true) }
+        onOpenSettings={ () => setIsSettingsOpen(true) }
+      />
       { isShopOpen && <ShopOverlay onClose={ () => setIsShopOpen(false) } /> }
-      <SeedSelector show={ isSeedMenuOpen } onClose={ () => setIsSeedMenuOpen(false) } />
       <SettingsMenu show={ isSettingsOpen } onClose={ () => setIsSettingsOpen(false) } />
+      <SeedSelector show={ isSeedMenuOpen } onClose={ () => setIsSeedMenuOpen(false) } />
 
       <UnlockPopup />
-
       <div className="hud-container">
         { isUnlocked('SHOW_MONEY_UI') && (
           <Card className="money-card">
@@ -48,13 +54,12 @@ export function FarmPage() {
           <Button
             variant="link"
             className="hud-icon-btn"
-            onClick={ () => setIsShopOpen(true) }
-            title="Abrir Loja"
+            onClick={ () => setIsPcOpen(true) }
+            title="Meu Computador"
           >
-            <img src={ marketIcon } alt="Loja" />
+            <img src={ wandoosIcon } alt="PC" />
           </Button>
         ) }
-
         { isUnlocked('UNLOCK_SEED_BAG') && (
           <Button
             variant="link"
@@ -65,21 +70,7 @@ export function FarmPage() {
             <img src={ currentSeedData.icon } alt="saco de semente" />
           </Button>
         ) }
-
-        { isUnlocked('GAME_SETTINGS') && (
-          <Button
-            variant="link"
-            className="hud-icon-btn ms-2"
-            onClick={ () => setIsSettingsOpen(true) }
-            title="Configurações"
-          >
-            <img src={ configIcon } alt="botão configurações" />
-          </Button>
-        ) }
-
       </div>
-
-      { /* --- GRID DA FAZENDA --- */ }
       <div className="farm-grid-area">
         <Row className="g-3 justify-content-center">
           { plots.map((_, index) => (

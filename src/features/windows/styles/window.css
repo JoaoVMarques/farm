@@ -1,0 +1,118 @@
+.custom-desktop-modal .modal-content {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  width: 600px;
+  height: 450px;
+}
+
+.desktop-header {
+  background: #000080;
+  color: white;
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  border-top: 2px solid #dfdfdf;
+  border-left: 2px solid #dfdfdf;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+}
+
+.desktop-close-btn {
+  background: #c0c0c0;
+  border: 2px outset #fff;
+  font-weight: bold;
+  width: 24px;
+  height: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+.desktop-close-btn:active {
+  border: 2px inset #fff;
+}
+
+.desktop-body {
+  background-color: #008080;
+  height: 100%;
+  border-left: 2px solid #fff;
+  border-top: 2px solid #fff;
+  border-right: 2px solid #404040;
+  border-bottom: 2px solid #404040;
+  padding: 20px;
+  
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.desktop-icon {
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-align: center;
+}
+
+.desktop-icon:hover .icon-img-wrapper {
+  filter: brightness(1.2);
+}
+
+.desktop-icon:hover .icon-label {
+  background-color: #000080;
+  color: white;
+  border: 1px dotted white;
+}
+
+.icon-img-wrapper {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.icon-img-wrapper img {
+  width: 100%;
+  height: auto;
+}
+
+.icon-label {
+  color: white;
+  font-family: sans-serif;
+  font-size: 0.9rem;
+  margin-top: 5px;
+  padding: 2px;
+  text-shadow: 1px 1px 0 #000;
+}
+
+.taskbar {
+  background: #c0c0c0;
+  border-top: 2px solid #fff;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  justify-content: space-between;
+}
+
+.start-btn {
+  border: 2px outset #fff;
+  padding: 2px 10px;
+  font-weight: bold;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.clock {
+  border: 2px inset #fff;
+  padding: 2px 10px;
+  background: #c0c0c0;
+  margin-right: 2px;
+}
